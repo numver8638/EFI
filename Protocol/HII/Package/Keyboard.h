@@ -1,0 +1,15 @@
+#ifndef EFI_PROTOCOL_HII_PACKAGE_KEYBOARD_H
+#define EFI_PROTOCOL_HII_PACKAGE_KEYBOARD_H
+
+#include <EFI/Protocol/HII/Types.h>
+
+//
+// EFI_HII_KEYBOARD_PACKAGE_HDR
+//
+typedef struct {
+    EFI_HII_PACKAGE_HDR         Header;
+    UINT16                      Count;
+    // EFI_HII_KEYBOARD_LAYOUT  Layout[];
+} EFI_HII_KEYBOARD_PACKAGE_HDR;
+
+#endif // EFI_PROTOCOL_HII_PACKAGE_KEYBOARD_H

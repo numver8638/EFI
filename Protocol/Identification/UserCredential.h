@@ -1,0 +1,142 @@
+#ifndef EFI_PROTOCOL_IDENTIFICATION_USERCREDENTIAL_H
+#define EFI_PROTOCOL_IDENTIFICATION_USERCREDENTIAL_H
+
+#include <EFI/Types.h>
+#include <EFI/Protocol/Identification/UserInfo.h>
+#include <EFI/Protocol/HII/Types.h>
+
+#define EFI_USER_CREDENTIAL2_PROTOCOL_GUID \
+    { 0xE98ADB03, 0xB8B9, 0x4AF8, { 0xBA, 0x20, 0x26, 0xE9, 0x11, 0x4C, 0xBC, 0xE5 } }
+
+typedef struct _EFI_USER_CREDENTIAL2_PROTOCOL EFI_USER_CREDENTIAL2_PROTOCOL;
+
+#define EFI_USER_CREDENTIAL_CLASS_UNKNOWN \
+    { 0x5CF32E68, 0x7660, 0x339B, { 0x80, 0xE6, 0x7E, 0xA3, 0x6E, 0x03, 0xF6, 0xA8 } }
+
+#define EFI_USER_CREDENTIAL_CLASS_PASSWORD \
+    { 0xF8E5058C, 0xCCB6, 0x4714, { 0xB2, 0x20, 0x3F, 0x7E, 0x3A, 0x64, 0x0B, 0xD1 } }
+
+#define EFI_USER_CREDENTIAL_CLASS_SMART_CARD \
+    { 0x5F03BA33, 0x8C6B, 0x4C24, { 0xAA, 0x2E, 0x14, 0xA2, 0x65, 0x7B, 0xD4, 0x54 } }
+
+#define EFI_USER_CREDENTIAL_CLASS_FINGERPRINT \
+    { 0x32CBA21F, 0xF308, 0x4CBC, { 0x9A, 0xB5, 0xF5, 0xA3, 0x69, 0x9F, 0x04, 0x4A } }
+
+#define EFI_USER_CREDENTIAL_CLASS_HANDPRINT \
+    { 0x5917EF16, 0xF723, 0x4BB9, { 0xA6, 0x4B, 0xD8, 0xC5, 0x32, 0xF4, 0xD8, 0xB5 } }
+
+#define EFI_USER_CREDENTIAL_CLASS_SECURE_CARD \
+    { 0x8A6B4A83, 0x42FE, 0x45D2, { 0xA2, 0xEF, 0x46, 0xF0, 0x6C, 0x7D, 0x98, 0x52 } }
+
+typedef UINT64 EFI_CREDENTIAL_CAPABILITIES;
+
+#define EFI_CREDENTIAL_CAPABILITIES_ENROLL  (0x0000000000000001)
+
+typedef UINT32 EFI_CREDENTIAL_LOGON_FLAGS;
+
+#define EFI_CREDENTIAL_LOGON_FLAG_AUTO      (0x00000001)
+#define EFI_CREDENTIAL_LOGON_FLAG_DEFAULT   (0x00000002)
+
+typedef
+EFI_STATUS
+(EFIAPI *EFI_CREDENTIAL_ENROLL) (
+    IN CONST EFI_USER_CREDENTIAL2_PROTOCOL  *This,
+    IN EFI_USER_PROFILE_HANDLE              User
+);
+
+typedef
+EFI_STATUS
+(EFIAPI *EFI_CREDENTIAL_FORM) (
+    IN CONST EFI_USER_CREDENTIAL2_PROTOCOL  *This,
+    OUT EFI_HII_HANDLE                      *Hii,
+    OUT EFI_GUID                            *FormSetGuid,
+    OUT EFI_FORM_ID                         *FormId
+);
+
+typedef
+EFI_STATUS
+(EFIAPI *EFI_CREDENTIAL_TILE) (
+    IN CONST EFI_USER_CREDENTIAL2_PROTOCOL  *This,
+    IN OUT UINTN                            *Width,
+    IN OUT UINTN                            *Height,
+    OUT EFI_HII_HANDLE                      *Hii,
+    OUT EFI_IMAGE_ID                        *Image
+);
+
+typedef
+EFI_STATUS
+(EFIAPI *EFI_CREDENTIAL_TITLE) (
+    IN CONST EFI_USER_CREDENTIAL2_PROTOCOL  *This,
+    OUT EFI_HII_HANDLE                      *Hii,
+    OUT EFI_STRING_ID                       *String
+);
+
+typedef
+EFI_STATUS
+(EFIAPI *EFI_CREDENTIAL_USER) (
+    IN CONST EFI_USER_CREDENTIAL2_PROTOCOL  *This,
+    IN EFI_USER_PROFILE_HANDLE              User,
+    OUT EFI_USER_INFO_IDENTIFIER            *Identifier
+);
+
+typedef
+EFI_STATUS
+(EFIAPI *EFI_CREDENTIAL_SELECT) (
+    IN CONST EFI_USER_CREDENTIAL2_PROTOCOL  *This,
+    OUT EFI_CREDENTIAL_LOGON_FLAGS          *AutoLogon
+);
+
+typedef
+EFI_STATUS
+(EFIAPI *EFI_CREDENTIAL_DESELECT) (
+    IN CONST EFI_USER_CREDENTIAL2_PROTOCOL  *This
+);
+
+typedef
+EFI_STATUS
+(EFIAPI *EFI_CREDENTIAL_DEFAULT) (
+    IN CONST EFI_USER_CREDENTIAL2_PROTOCOL  *This,
+    OUT EFI_CREDENTIAL_LOGON_FLAGS          *AutoLogon
+);
+
+typedef
+EFI_STATUS
+(EFIAPI *EFI_CREDENTIAL_GET_INFO) (
+    IN CONST EFI_USER_CREDENTIAL2_PROTOCOL  *This,
+    IN EFI_USER_INFO_HANDLE                 UserInfo,
+    OUT EFI_USER_INFO                       *Info,
+    IN OUT UINTN                            *InfoSize
+);
+
+typedef
+EFI_STATUS
+(EFIAPI *EFI_CREDENTIAL_GET_NEXT_INFO) (
+    IN CONST EFI_USER_CREDENTIAL2_PROTOCOL  *This,
+    IN OUT EFI_USER_INFO_HANDLE             *UserInfo
+);
+
+typedef
+EFI_STATUS
+(EFIAPI *EFI_CREDENTIAL_DELETE) (
+    IN CONST EFI_USER_CREDENTIAL2_PROTOCOL  *This,
+    IN EFI_USER_PROFILE_HANDLE              User
+);
+
+struct _EFI_USER_CREDENTIAL2_PROTOCOL {
+    EFI_GUID                        Identifier;
+    EFI_GUID                        Type;
+    EFI_CREDENTIAL_ENROLL           Enroll;
+    EFI_CREDENTIAL_FORM             Form;
+    EFI_CREDENTIAL_TILE             Tile;
+    EFI_CREDENTIAL_TITLE            Title;
+    EFI_CREDENTIAL_USER             User;
+    EFI_CREDENTIAL_SELECT           Select;
+    EFI_CREDENTIAL_DESELECT         Deselect;
+    EFI_CREDENTIAL_DEFAULT          Default;
+    EFI_CREDENTIAL_GET_INFO         GetInfo;
+    EFI_CREDENTIAL_GET_NEXT_INFO    GetNextInfo;
+    EFI_CREDENTIAL_CAPABILITIES     Capabilities;
+    EFI_CREDENTIAL_DELETE           Delete;
+};
+
+#endif // EFI_PROTOCOL_IDENTIFICATION_USERCREDENTIAL_H

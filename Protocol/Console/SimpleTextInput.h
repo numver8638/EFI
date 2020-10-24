@@ -1,0 +1,39 @@
+#ifndef EFI_PROTOCOL_CONSOLE_SIMPLETEXTINPUT_H
+#define EFI_PROTOCOL_CONSOLE_SIMPLETEXTINPUT_H
+
+#include <EFI/Types.h>
+
+#define EFI_SIMPLE_TEXT_INPUT_PROTOCOL_GUID \
+    { 0x387477C1, 0x69C7, 0x11D2, { 0x8E, 0x39, 0x00, 0xA0, 0xC9, 0x69, 0x72, 0x3B } }
+
+typedef struct _EFI_SIMPLE_TEXT_INPUT_PROTOCOL EFI_SIMPLE_TEXT_INPUT_PROTOCOL;
+
+//
+// EFI_INPUT_KEY
+//
+typedef struct {
+    UINT16 ScanCode;
+    CHAR16 UnicodeChar;
+} EFI_INPUT_KEY;
+
+typedef
+EFI_STATUS
+(EFIAPI *EFI_INPUT_RESET) (
+    IN EFI_SIMPLE_TEXT_INPUT_PROTOCOL *This,
+    IN BOOLEAN                        ExtendedVerification
+);
+
+typedef
+EFI_STATUS
+(EFIAPI *EFI_INPUT_READ_KEY) (
+    IN EFI_SIMPLE_TEXT_INPUT_PROTOCOL *This,
+    OUT EFI_INPUT_KEY                 *Key
+);
+
+struct _EFI_SIMPLE_TEXT_INPUT_PROTOCOL {
+    EFI_INPUT_RESET    Reset;
+    EFI_INPUT_READ_KEY ReadKeyStroke;
+    EFI_EVENT          WaitForKey;
+};
+
+#endif // EFI_PROTOCOL_CONSOLE_SIMPLETEXTINPUT_H

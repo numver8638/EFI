@@ -1,0 +1,54 @@
+#ifndef EFI_PROTOCOL_DEBUG_DEBUGPORT_H
+#define EFI_PROTOCOL_DEBUG_DEBUGPORT_H
+
+#include <EFI/Types.h>
+
+#define EFI_DEBUGPORT_PROTOCOL_GUID \
+    { 0xEBA4E8D2, 0x3858, 0x41EC, { 0xA2, 0x81, 0x26, 0x47, 0xBA, 0x96, 0x60, 0xD0 } }
+
+#define EFI_DEBUGPORT_VARIABLE_NAME     L"DEBUGPORT"
+#define EFI_DEBUGPORT_VARIABLE_GUID     EFI_DEBUGPORT_PROTOCOL_GUID
+
+#define DEVICE_PATH_MESSAGING_DEBUGPORT EFI_DEBUGPORT_PROTOCOL_GUID
+
+typedef struct _EFI_DEBUGPORT_PROTOCOL EFI_DEBUGPORT_PROTOCOL;
+
+typedef
+EFI_STATUS
+(EFIAPI *EFI_DEBUGPORT_RESET) (
+    IN EFI_DEBUGPORT_PROTOCOL   *This
+);
+
+typedef
+EFI_STATUS
+(EFIAPI *EFI_DEBUGPORT_WRITE) (
+    IN EFI_DEBUGPORT_PROTOCOL   *This,
+    IN UINT32                   Timeout,
+    IN OUT UINTN                *BufferSize,
+    IN VOID                     *Buffer
+);
+
+typedef
+EFI_STATUS
+(EFIAPI *EFI_DEBUGPORT_READ) (
+    IN EFI_DEBUGPORT_PROTOCOL   *This,
+    IN UINT32                   Timeout,
+    IN OUT UINTN                *BufferSize,
+    OUT VOID                    *Buffer
+);
+
+typedef
+EFI_STATUS
+(EFIAPI *EFI_DEBUGPORT_POLL) (
+    IN EFI_DEBUGPORT_PROTOCOL   *This
+);
+
+
+struct _EFI_DEBUGPORT_PROTOCOL {
+    EFI_DEBUGPORT_RESET     Reset;
+    EFI_DEBUGPORT_WRITE     Write;
+    EFI_DEBUGPORT_READ      Read;
+    EFI_DEBUGPORT_POLL      Poll;
+};
+
+#endif // EFI_PROTOCOL_DEBUG_DEBUGPORT_H

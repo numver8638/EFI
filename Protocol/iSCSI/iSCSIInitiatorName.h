@@ -1,0 +1,32 @@
+#ifndef EFI_PROTOCOL_ISCSI_ISCSIINITIATORNAME_H
+#define EFI_PROTOCOL_ISCSI_ISCSIINITIATORNAME_H
+
+#include <EFI/Types.h>
+
+#define EFI_ISCSI_INITIATOR_NAME_PROTOCOL_GUID \
+    { 0x59324945, 0xEC44, 0x4C0D, { 0xB1, 0xCD, 0x9D, 0xB1, 0x39, 0xDF, 0x07, 0x0C } }
+
+typedef struct _EFI_ISCSI_INITIATOR_NAME_PROTOCOL EFI_ISCSI_INITIATOR_NAME_PROTOCOL;
+
+typedef
+EFI_STATUS
+(EFIAPI *EFI_ISCSI_INITIATOR_NAME_GET) (
+    IN EFI_ISCSI_INITIATOR_NAME_PROTOCOL    *This,
+    IN OUT UINTN                            *BufferSize,
+    OUT VOID                                *Buffer
+);
+
+typedef
+EFI_STATUS
+(EFIAPI *EFI_ISCSI_INITIATOR_NAME_SET) (
+    IN EFI_ISCSI_INITIATOR_NAME_PROTOCOL    *This,
+    IN OUT UINTN                            *BufferSize,
+    IN VOID                                 *Buffer
+);
+
+struct _EFI_ISCSI_INITIATOR_NAME_PROTOCOL {
+    EFI_ISCSI_INITIATOR_NAME_GET    Get;
+    EFI_ISCSI_INITIATOR_NAME_SET    Set;
+};
+
+#endif // EFI_PROTOCOL_ISCSI_ISCSIINITIATORNAME_H
